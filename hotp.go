@@ -7,7 +7,7 @@ import "crypto"
 // C is the counter.
 // d is the length of the OTP.
 // H is the hash function.
-func GenerateHotp(K []byte, C uint64, d int, H crypto.Hash) string {
+func GenerateHotp(K string, C uint64, d int, H crypto.Hash) string {
 	return Hmac(K, C, d, H)
 }
 
@@ -18,7 +18,7 @@ func GenerateHotp(K []byte, C uint64, d int, H crypto.Hash) string {
 // otp is the OTP to check.
 // d is the length of the OTP.
 // H is the hash function.
-func VerifyHotp(K []byte, windowSize int, C uint64, otp string, d int, H crypto.Hash) bool {
+func VerifyHotp(K string, windowSize int, C uint64, otp string, d int, H crypto.Hash) bool {
 
 	for i := 0; i < windowSize; i++ {
 		if Hmac(K, C+uint64(i), d, H) == otp {

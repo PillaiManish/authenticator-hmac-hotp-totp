@@ -9,7 +9,7 @@ import (
 // p is the period in seconds.
 // d is the length of the OTP.
 // H is the hash function.
-func GenerateTotp(K []byte, p uint64, d int, H crypto.Hash) string {
+func GenerateTotp(K string, p uint64, d int, H crypto.Hash) string {
 	// get the current time in seconds and divide by period
 	t := time.Now().Unix() / int64(p)
 
@@ -27,7 +27,7 @@ func GenerateTotp(K []byte, p uint64, d int, H crypto.Hash) string {
 // otp is the OTP to check.
 // d is the length of the OTP.
 // H is the hash function.
-func VerifyTotp(K []byte, p uint64, windowSize int, otp string, d int, H crypto.Hash) bool {
+func VerifyTotp(K string, p uint64, windowSize int, otp string, d int, H crypto.Hash) bool {
 	// get the current time in seconds and divide by period
 	t := time.Now().Unix() / int64(p)
 

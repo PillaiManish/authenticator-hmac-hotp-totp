@@ -4,6 +4,7 @@ import (
 	"crypto"
 	"crypto/hmac"
 	"crypto/sha1"
+	"encoding/base32"
 	"encoding/binary"
 	"fmt"
 )
@@ -13,10 +14,12 @@ import (
 // C is the counter.
 // d is the length of the OTP.
 // H is the hash function.
-func Hmac(K []byte, C uint64, d int, H crypto.Hash) string {
+func Hmac(k string, C uint64, d int, H crypto.Hash) string {
 	if !H.Available() {
 		panic("hmac: requested hash function is not available")
 	}
+
+	K, _ := base32.StdEncoding.WithPadding(base32.NoPadding).DecodeString(k)
 
 	mac := hmac.New(sha1.New, K)
 
