@@ -9,6 +9,10 @@ import (
 )
 
 // Hmac generates a d-digit OTP from a given counter C using HMAC-Hash-Based Message Authentication Code.
+// K is the secret key.
+// C is the counter.
+// d is the length of the OTP.
+// H is the hash function.
 func Hmac(K []byte, C uint64, d int, H crypto.Hash) string {
 	if !H.Available() {
 		panic("hmac: requested hash function is not available")
@@ -33,6 +37,8 @@ func Hmac(K []byte, C uint64, d int, H crypto.Hash) string {
 // dynamicTruncation generates a d-digit OTP by extracting and processing a portion of the given hash.
 // It computes an offset from the hash's last byte, constructs a 4-byte binary value starting at the offset,
 // and returns the OTP as a zero-padded string.
+// hash is the hash to process.
+// d is the length of the OTP.
 func dynamicTruncation(hash []byte, d int) string {
 	// take out the last byte of the hash
 	// AND with 0x0f
@@ -54,6 +60,7 @@ func dynamicTruncation(hash []byte, d int) string {
 }
 
 // pow10 returns the power of 10
+// n is the power of 10
 func pow10(n int) int {
 	p := 1
 	for i := 0; i < n; i++ {
